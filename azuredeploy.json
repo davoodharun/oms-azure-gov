@@ -88,7 +88,7 @@
                       "value":"[parameters('windowsOSVersion')]"
                     },
                     "VMName": {
-                      "value": "[contact('VM-', copyindex())]"
+                      "value": "[concat('VM-', copyindex())]"
                     }
                   }
               }
