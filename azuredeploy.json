@@ -2,44 +2,9 @@
     "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "omsWorkspaceName": {
-            "type": "string"
-        },
-        "omsWorkspaceRegion": {
-            "type": "string",
-            "defaultValue": "USGov Virginia",
-            "allowedValues": ["USGov Virginia", "East US", "West Europe", "Southeast Asia", "Australia Southeast"],
-            "metadata": {
-                "description": "Specify the region for your Workspace"
-            }
-        },
-        "serviceTier": {
-            "type": "string",
-            "allowedValues": [
-                "Free",
-                "Standalone",
-                "PerNode"
-            ],
-            "defaultValue": "PerNode",
-            "metadata": {
-                "description": "Service Tier: Free, Standalone, or PerNode"
-            }
-        },
-        "dataRetention": {
-            "type": "int",
-            "defaultValue": 365,
-            "minValue": 7,
-            "maxValue": 730,
-            "metadata": {
-                "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
-            }
-        },
-        "omsAutomationAccountName": {
-            "type": "string"
-        },
         "artifactsLocation": {
             "type": "string",
-            "defaultValue": "https://raw.githubusercontent.com/davoodharun/oms-azure-gov/"
+            "defaultValue": "https://raw.githubusercontent.com/davoodharun/oms-azure-gov/master"
         },
         "vmCount": {
             "type": "int"
@@ -100,27 +65,27 @@
               "properties": {
                   "mode": "Incremental",
                   "templateLink": {
-                      "uri": "[variables('artifacts').provisioningOMSWorkspaceUrl]",
+                      "uri": "[parameters('artifactsLocation')]",
                       "contentVersion": "1.0.0.0"
                   },
                   "parameters": {
                     "adminUsername": {
-                      "value":"[parameters('')]"
+                      "value":"[parameters('adminUsername')]"
                     },
                     "adminPassword": {
-                      "value":"[parameters('')]"
+                      "value":"[parameters('adminPassword')]"
                     },
                     "dnsLabelPrefix": {
-                       "value":"[parameters('')]"
+                       "value":"[parameters('dnsLabelPrefix')]"
                     },
                     "workspaceId": {
-                      "value":"[parameters('')]"
+                      "value":"[parameters('workspaceId')]"
                     },
                     "workspaceName": {
-                      "value":"[parameters('')]"
+                      "value":"[parameters('workspaceName')]"
                     },
                     "windowsOSVersion": {
-                      "value":"[parameters('')]"
+                      "value":"[parameters('windowsOSVersion')]"
                     },
                     "VMName": {
                       "value": "[contact('VM-', copyindex())]"
