@@ -1,0 +1,133 @@
+{
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "omsWorkspaceName": {
+            "type": "string"
+        },
+        "omsWorkspaceRegion": {
+            "type": "string",
+            "defaultValue": "USGov Virginia",
+            "allowedValues": ["USGov Virginia", "East US", "West Europe", "Southeast Asia", "Australia Southeast"],
+            "metadata": {
+                "description": "Specify the region for your Workspace"
+            }
+        },
+        "serviceTier": {
+            "type": "string",
+            "allowedValues": [
+                "Free",
+                "Standalone",
+                "PerNode"
+            ],
+            "defaultValue": "PerNode",
+            "metadata": {
+                "description": "Service Tier: Free, Standalone, or PerNode"
+            }
+        },
+        "dataRetention": {
+            "type": "int",
+            "defaultValue": 365,
+            "minValue": 7,
+            "maxValue": 730,
+            "metadata": {
+                "description": "Number of days of retention. Free plans can only have 7 days, Standalone and OMS plans include 30 days for free"
+            }
+        },
+        "omsAutomationAccountName": {
+            "type": "string"
+        },
+        "artifactsLocation": {
+            "type": "string",
+            "defaultValue": "https://raw.githubusercontent.com/davoodharun/oms-azure-gov/"
+        },
+        "vmCount": {
+            "type": "int"
+        },
+        "adminUsername": {
+          "type": "string",
+          "metadata": {
+            "description": "Username for the Virtual Machine."
+          }
+        },
+        "adminPassword": {
+          "type": "securestring",
+          "metadata": {
+            "description": "Password for the Virtual Machine."
+          }
+        },
+        "dnsLabelPrefix": {
+           "type": "string",
+           "metadata": {
+              "description": "DNS Label for the Public IP. Must be lowercase. It should match with the following regular expression: ^[a-z][a-z0-9-]{1,61}[a-z0-9]$ or it will raise an error."
+           }
+        },
+        "workspaceId": {
+          "type": "string",
+          "metadata": {
+            "description": "OMS workspace ID"
+          }
+        },
+        "workspaceName": {
+          "type": "string",
+          "metadata": {
+             "description": "OMS workspace name"
+          }
+        },
+        "windowsOSVersion": {
+          "type": "string",
+          "defaultValue": "2016-Datacenter",
+          "allowedValues": [
+
+          ],
+          "metadata": {
+            "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version. Allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter, Windows-Server-Technical-Preview."
+          }
+        }
+    },
+    "variables": {
+
+    },
+    "resources": [
+          {
+              "name": "[concat('DeployVM-', copyindex())]",
+              "type": "Microsoft.Resources/deployments",
+              "apiVersion": "2015-01-01",
+              "copy": {
+                  "name": "extensionloop",
+                  "count": "[parameters('vmCount')]"
+              },
+              "properties": {
+                  "mode": "Incremental",
+                  "templateLink": {
+                      "uri": "[variables('artifacts').provisioningOMSWorkspaceUrl]",
+                      "contentVersion": "1.0.0.0"
+                  },
+                  "parameters": {
+                    "adminUsername": {
+                      "value":"[parameters('')]"
+                    },
+                    "adminPassword": {
+                      "value":"[parameters('')]"
+                    },
+                    "dnsLabelPrefix": {
+                       "value":"[parameters('')]"
+                    },
+                    "workspaceId": {
+                      "value":"[parameters('')]"
+                    },
+                    "workspaceName": {
+                      "value":"[parameters('')]"
+                    },
+                    "windowsOSVersion": {
+                      "value":"[parameters('')]"
+                    },
+                    "VMName": {
+                      "value": "[contact('VM-', copyindex())]"
+                    }
+                  }
+              }
+          }
+    ]
+
+}
