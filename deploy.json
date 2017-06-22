@@ -43,7 +43,7 @@
     }
   },
   "variables": {
-    "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]",
+    "storageAccountName": "[concat(uniquestring(resourceGroup().id), parameters('vmName'))]",
     "apiVersion": "2015-06-15",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageOffer": "WindowsServer",
