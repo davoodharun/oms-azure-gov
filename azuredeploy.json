@@ -51,45 +51,9 @@
         }
     },
     "variables": {
-      "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'sa')]",
-      "apiVersion": "2015-06-15",
-      "imagePublisher": "MicrosoftWindowsServer",
-      "imageOffer": "WindowsServer",
-      "OSDiskName": "osdiskforwindowssimple",
-      "addressPrefix": "10.0.0.0/16",
-      "subnetName": "Subnet",
-      "subnetPrefix": "10.0.0.0/24",
-      "storageAccountType": "Standard_LRS",
-      "publicIPAddressType": "Dynamic",
-      "vmStorageAccountContainerName": "vhds",
-      "vmSize": "Standard_DS1",
-      "virtualNetworkName": "MyVNET",
-      "resourceId": "[resourceGroup().id]",
-      "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-      "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]"
+
     },
     "resources": [
-        {
-            "apiVersion": "[variables('apiVersion')]",
-            "type": "Microsoft.Network/virtualNetworks",
-            "name": "[variables('virtualNetworkName')]",
-            "location": "[resourceGroup().location]",
-            "properties": {
-              "addressSpace": {
-                "addressPrefixes": [
-                  "[variables('addressPrefix')]"
-                ]
-              },
-              "subnets": [
-                {
-                  "name": "[variables('subnetName')]",
-                  "properties": {
-                    "addressPrefix": "[variables('subnetPrefix')]"
-                  }
-                }
-              ]
-            }
-          },
           {
               "name": "[concat('DeployVM-', copyindex())]",
               "type": "Microsoft.Resources/deployments",
