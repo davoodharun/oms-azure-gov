@@ -930,6 +930,29 @@
                 "promotionCode": "",
                 "publisher": "Microsoft"
             }
+        },
+        {
+          "name": "MyVNET",
+          "type": "Microsoft.Network/virtualNetworks",
+          "location": "[parameters('omsWorkspaceRegion')]",
+          "apiVersion": "2015-06-15",
+          "tags": {
+            "Project": "BluePrint"
+          },
+          "properties": {
+            "addressSpace": {
+              "addressPrefixes": [
+                "10.0.0.0/16"
+              ]
+            },
+            "subnets": [
+                {
+                "name": "Subnet",
+                "properties": {
+                    "addressPrefix": "10.0.0.0/24"
+                }
+            ]
+          }
         }
     ],
     "outputs": {
